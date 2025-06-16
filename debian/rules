@@ -1,9 +1,12 @@
 #!/usr/bin/make -f
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+#export DH_VERBOSE = 1
 
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all future=+lfs
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all abi=+lfs
+export DEB_CPPFLAGS_FOR_BUILD_MAINT_APPEND = -D_GNU_SOURCE=1
+export DEB_CPPFLAGS_MAINT_APPEND = -D_GNU_SOURCE=1
+export DEB_CFLAGS_FOR_BUILD_MAINT_APPEND = -Wall
 export DEB_CFLAGS_MAINT_APPEND = -Wall
 
 include /usr/share/dpkg/default.mk
@@ -45,3 +48,6 @@ override_dh_strip:
 	# system, after the linker stage and before preprocessing the binary
 	# files. Otherwise when stripping the self-extracting modules and the
 	# help text are removed.
+
+override_dh_installchangelogs:
+	dh_installchangelogs --no-trim
